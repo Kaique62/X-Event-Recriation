@@ -17,6 +17,7 @@ import BoyfriendRpg;
 import flixel.tile.FlxTilemap;
 import flixel.FlxCamera;
 import rpg.Menu;
+import rpg.RpgDialogueBox;
 
 using StringTools;
 
@@ -25,8 +26,12 @@ class MainMenuState extends MusicBeatState
 	var player:BoyfriendRpg;
 	var tile:FlxTilemap;
 	var map:Menu;
+	var storyMode:FlxSprite;
+	var freeplay:FlxSprite;
 
 	var cam:FlxCamera;
+
+	public static var inCutscene:Bool = false;
 
 	public static var kadeEngineVer:String = "1.5.1";
 	public static var gameVer:String = "0.2.7.1";
@@ -44,7 +49,7 @@ class MainMenuState extends MusicBeatState
 		add(map);
 
 		#if mobileC
-		addVirtualPad(UP_DOWN, A_B);
+		addVirtualPad(FULL, A_B);
 		#end
 
 
@@ -52,14 +57,51 @@ class MainMenuState extends MusicBeatState
 		add(player);
 		FlxG.camera.follow(player);
 
+		storyMode = new FlxSprite(650, 240);
+		storyMode.visible = false;
+		storyMode.color = 0xFF008000;
+		add(storyMode);
+
+		freeplay = new FlxSprite(200, 240);
+		freeplay.visible = false;
+		freeplay.color = 0xFF008000;
+		add(freeplay);
+
+
 		super.create();
 	}
-
-	override function update(elapsed:Float)
-	{
-	//FlxG.collide(player, tile);	
-	super.update(elapsed);
+	function chooseStoryMode(player:FlxSprite, storyMode:FlxSprite):Void {
+		if (player.exists && storyMode.exists && controls.ACCEPT && !inCutscene){
+		    var doof = new RpgDialogueBox(false, CoolUtil.coolTextFile(Paths.txt('txts/storymode')));
+			doof.finishThing = goToStoryMode;
+			doof.scrollFactor.set();
+			addDialogueBox(doof);
+			inCutscene = false; 
+		}
 	}
-	
-	
+	function chooseFreePlay(player:FlxSprite, freeplay:FlxSprite):Void {
+		if (player.exists && freeplay.exists && controls.ACCEPT){
+			
+			FlxG.switchState(new FreeplayState());
+		}
+	}
+	function addDialogueBox(?dialogueBox:RpgDialogueBox):Void{
+	new FlxTimer().start(0.3, function(tmr:FlxTimer)
+	  {
+		if (dialogueBox != null){
+			inCutscene = true;
+			add(dialogueBox);
+		}
+	  });
+	}
+	function goToStoryMode():Void {
+		FlxG.switchState(new StoryMenuState());
+	}
+	override function update(elapsed:Float)
+		{
+		//FlxG.collide(player, tile);
+		FlxG.overlap(player, storyMode, chooseStoryMode);	
+		FlxG.overlap(player, freeplay, chooseFreePlay);	
+		super.update(elapsed);
+		}		
 }

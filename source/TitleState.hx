@@ -42,6 +42,10 @@ class TitleState extends MusicBeatState
 	var credTextShit:Alphabet;
 	var textGroup:FlxGroup;
 	var ngSpr:FlxSprite;
+	var xevent:FlxSprite;
+	var square:FlxSprite;
+	var floor:FlxSprite;
+	var light:FlxSprite;
 
 	var curWacky:Array<String> = [];
 
@@ -167,13 +171,33 @@ class TitleState extends MusicBeatState
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
-		gfDance = new FlxSprite(FlxG.width * 0.4, FlxG.height * 0.07);
-		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
-		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
-		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		xevent = new FlxSprite(350, 350);
+		xevent.loadGraphic(Paths.image('xevent'));
+		
+		square = new FlxSprite(0, 0);
+		square.loadGraphic(Paths.image('overwrite_square', 'shared'));
+		add(square);
+
+		floor = new FlxSprite(-650, -250);
+		floor.loadGraphic(Paths.image('overwrite_bg', 'shared'));
+		floor.setGraphicSize(Std.int(floor.width * 0.5));
+		add(floor);
+
+		gfDance = new FlxSprite(500, -100);
+		gfDance.frames = Paths.getSparrowAtlas('xgastertitle', 'shared');
+		gfDance.animation.addByPrefix('danceLeft', "IDLE");
+		gfDance.animation.addByPrefix('danceRight', "LEFT");
+		gfDance.setGraphicSize(Std.int(gfDance.width * 0.7));
 		gfDance.antialiasing = true;
+		gfDance.flipX = true;
 		add(gfDance);
 		add(logoBl);
+		add(xevent);
+
+		light = new FlxSprite(-650, -350);
+		light.loadGraphic(Paths.image('overwrite_light', 'shared'));
+		light.setGraphicSize(Std.int(light.width * 0.5));
+		add(light);
 
 		titleText = new FlxSprite(100, FlxG.height * 0.8);
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');

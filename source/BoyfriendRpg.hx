@@ -23,7 +23,7 @@ class BoyfriendRpg extends FlxSprite
         animation.addByPrefix('DOWN', 'boyfriend_down', 24, false);
         animation.addByPrefix('LEFT', 'boyfriend_left', 24, false);
         animation.addByPrefix('RIGHT', 'boyfriend_right', 24, false); 
-        setGraphicSize(Std.int(width * 0.5));   
+        setGraphicSize(Std.int(width * 0.3));   
         drag.x = speed * 4;
         drag.y = speed * 4;
 
@@ -40,28 +40,34 @@ class BoyfriendRpg extends FlxSprite
         var leftR = controls.LEFT_R;
         var rightR = controls.RIGHT_R;
 
-        if (upP && downP){
+        if (upP && downP && !MainMenuState.inCutscene){
             velocity.y = 0;
-        }   
-        else if (upP){
+        } 
+        if (upP && leftP || downP && leftP && !MainMenuState.inCutscene){
+            animation.play("LEFT");
+        }  
+        if (upP && leftP || downP && leftP && !MainMenuState.inCutscene){
+            animation.play("RIGHT");
+        }                     
+        else if (upP && !MainMenuState.inCutscene){
             animation.play("UP");
             velocity.y = - speed;
             flipX = false;
         }
-        else if (downP){
+        else if (downP && !MainMenuState.inCutscene){
             animation.play("DOWN");
             velocity.y = speed;
             flipX = false;
         } 
 
-        if (leftP && rightP){
+        if (leftP && rightP && !MainMenuState.inCutscene){
             velocity.x = 0;
         }   
-        else if (rightP){
+        else if (rightP && !MainMenuState.inCutscene){
             animation.play("RIGHT");
             velocity.x = speed;
         }
-        else if (leftP){
+        else if (leftP && !MainMenuState.inCutscene){
             animation.play("LEFT");
             velocity.x = - speed;
         } 
