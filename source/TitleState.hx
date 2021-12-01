@@ -173,30 +173,39 @@ class TitleState extends MusicBeatState
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
-		xevent = new FlxSprite(350, 350);
-		xevent.loadGraphic(Paths.image('xevent'));
-		
-		square = new FlxSprite(0, 0);
-		square.loadGraphic(Paths.image('overwrite_square', 'shared'));
-		add(square);
-
-		new FlxTimer().start(4, function(tmr:FlxTimer)
-	/*	{
-		if (!down){
-		FlxTween.tween(square, {y: 300}, 3,{ ease: FlxEase.expoInOut});
-		down = true;
-		}	
-		else if (down){
-		FlxTween.tween(square, {y: 0}, 3,{ease: FlxEase.expoInOut});	
-		down = false;
-		}	
-		}, 0); */
-
 
 		floor = new FlxSprite(-650, -250);
 		floor.loadGraphic(Paths.image('overwrite_bg', 'shared'));
 		floor.setGraphicSize(Std.int(floor.width * 0.5));
 		add(floor);
+
+
+		xevent = new FlxSprite(350, 350);
+		xevent.loadGraphic(Paths.image('xevent'));
+		
+		square = new FlxSprite(200, 0);
+		square.loadGraphic(Paths.image('overwrite_square', 'shared'));
+		square.setGraphicSize(Std.int(square.width * 0.5));
+		add(square);
+
+		var square2:FlxSprite;
+		square2 = new FlxSprite(900, 0);
+		square2.loadGraphic(Paths.image('overwrite_square', 'shared'));
+		square2.setGraphicSize(Std.int(square2.width * 0.5));
+		add(square2);
+
+		var square3:FlxSprite;
+		square3 = new FlxSprite(550, 0);
+		square3.loadGraphic(Paths.image('overwrite_square', 'shared'));
+		square3.setGraphicSize(Std.int(square3.width * 0.5));
+		add(square3);
+
+
+		FlxTween.tween(xevent, {y: 325}, 1,{type: FlxTween.PINGPONG});
+		FlxTween.tween(square, {y: 300}, 0.8,{type: FlxTween.PINGPONG});
+		FlxTween.tween(square2, {y: 300}, 0.6,{type: FlxTween.PINGPONG});
+		FlxTween.tween(square3, {y: 300}, 0.4,{type: FlxTween.PINGPONG});
+
 
 		gfDance = new FlxSprite(500, -100);
 		gfDance.frames = Paths.getSparrowAtlas('xgastertitle', 'shared');
@@ -206,8 +215,13 @@ class TitleState extends MusicBeatState
 		gfDance.antialiasing = true;
 		gfDance.flipX = true;
 		add(gfDance);
+
+	//	FlxTween.tween(gfDance, {y: 0}, 1,{type: FlxTween.PINGPONG, ease: FlxEase.expoInOut});
+
 		add(logoBl);
 		add(xevent);
+
+		FlxTween.tween(gfDance, {y: -120}, 1,{type: FlxTween.PINGPONG,  loopDelay: 0.1});
 
 		light = new FlxSprite(-650, -350);
 		light.loadGraphic(Paths.image('overwrite_light', 'shared'));
