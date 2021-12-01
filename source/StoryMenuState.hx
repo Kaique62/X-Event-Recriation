@@ -8,6 +8,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
@@ -22,9 +23,13 @@ using StringTools;
 class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;
+	var xeventweek:FlxSprite;
+	var selDif:FlxSprite;
+	var normal:FlxSprite;
+	var xchara:FlxSprite;
 
 	var weekData:Array<Dynamic> = [
-		['Tutorial'],
+		['Overwrite'],
 	];
 	var curDifficulty:Int = 1;
 
@@ -83,7 +88,7 @@ class StoryMenuState extends MusicBeatState
 		rankText.screenCenter(X);
 
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
-		var yellowBG:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 380, 0xFFdfa9fc);
+		var yellowBG:FlxSprite = new FlxSprite(0, 150).makeGraphic(FlxG.width, 300, 0xFFdfa9fc);
 		//dfa9fc
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
@@ -106,7 +111,7 @@ class StoryMenuState extends MusicBeatState
 			weekThing.visible = false;
 			grpWeekText.add(weekThing);
 
-			weekThing.screenCenter(X);
+//			weekThing.screenCenter(X);
 			weekThing.antialiasing = true;
 			// weekThing.updateHitbox();
 
@@ -131,7 +136,7 @@ class StoryMenuState extends MusicBeatState
 
 		trace("Line 124");
 
-		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
+		leftArrow = new FlxSprite(grpWeekText.members[0].x - 20 + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 60);
 		leftArrow.frames = ui_tex;
 		leftArrow.animation.addByPrefix('idle', "arrow left");
 		leftArrow.animation.addByPrefix('press', "arrow push left");
@@ -146,13 +151,26 @@ class StoryMenuState extends MusicBeatState
 		sprDifficulty.animation.play('easy');
 		changeDifficulty();
 
-		var xchara:FlxSprite;
-		xchara = new FlxSprite(400, 0);
+		xchara = new FlxSprite(450, 50);
 		xchara.frames = Paths.getSparrowAtlas('xchara', 'shared');
 		xchara.animation.addByPrefix('idle', "Dad idle dance");
 		xchara.animation.play('idle');
 		xchara.setGraphicSize(Std.int(xchara.width * 0.4));  
-		
+	
+		xeventweek = new FlxSprite(0, 20);
+		xeventweek.loadGraphic(Paths.image('weekX'));
+		xeventweek.screenCenter(X);
+		add(xeventweek);
+
+		selDif = new FlxSprite(0, 0);
+		selDif.loadGraphic(Paths.image('seldif', 'shared'));
+		selDif.screenCenter(X);
+		add(selDif);
+
+		normal = new FlxSprite(0, 0);
+		normal.loadGraphic(Paths.image('normal', 'shared'));
+		add(normal);		
+
 
 		difficultySelectors.add(sprDifficulty);
 
@@ -175,7 +193,7 @@ class StoryMenuState extends MusicBeatState
 		trace("Line 165");
 
 		#if mobileC
-		addVirtualPad(FULL, A_B);
+		addVirtualPad(LEFT_RIGHT, A_B);
 		#end
 
 		super.create();
@@ -352,6 +370,5 @@ class StoryMenuState extends MusicBeatState
 
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
-	}
-
+	}	 
 }

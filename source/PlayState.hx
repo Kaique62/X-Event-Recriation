@@ -215,6 +215,9 @@ class PlayState extends MusicBeatState
 	var mcontrols:Mobilecontrols; 
 	#end
 
+	var square:FlxSprite;
+	var floor:FlxSprite;
+	var light:FlxSprite;
 
 	// API stuff
 	
@@ -676,30 +679,22 @@ class PlayState extends MusicBeatState
 			}
 			case 'stage':
 				{
-						defaultCamZoom = 0.9;
+						defaultCamZoom = 0.7;
 						curStage = 'stage';
-						var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
-						bg.antialiasing = true;
-						bg.scrollFactor.set(0.9, 0.9);
-						bg.active = false;
-						add(bg);
-	
-						var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image('stagefront'));
-						stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
-						stageFront.updateHitbox();
-						stageFront.antialiasing = true;
-						stageFront.scrollFactor.set(0.9, 0.9);
-						stageFront.active = false;
-						add(stageFront);
-	
-						var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
-						stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
-						stageCurtains.updateHitbox();
-						stageCurtains.antialiasing = true;
-						stageCurtains.scrollFactor.set(1.3, 1.3);
-						stageCurtains.active = false;
-	
-						add(stageCurtains);
+						
+						square = new FlxSprite(0, 0);
+						square.loadGraphic(Paths.image('overwrite_square', 'shared'));
+						add(square);
+				
+						floor = new FlxSprite(-650, -250);
+						floor.loadGraphic(Paths.image('overwrite_bg', 'shared'));
+						//floor.setGraphicSize(Std.int(floor.width * 0.5));
+						add(floor);
+						
+						light = new FlxSprite(-650, -350);
+						light.loadGraphic(Paths.image('overwrite_light', 'shared'));
+						//light.setGraphicSize(Std.int(light.width * 0.5));
+						add(light);				
 				}
 			default:
 			{
@@ -829,6 +824,12 @@ class PlayState extends MusicBeatState
 				boyfriend.y += 220;
 				gf.x += 180;
 				gf.y += 300;
+			case 'stage':
+				boyfriend.x += 200;
+				gf.y -= 200;
+				gf.x -= 50;	
+				dad.y += 200;
+				dad.x -= 200;
 		}
 
 		add(gf);

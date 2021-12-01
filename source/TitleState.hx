@@ -47,6 +47,8 @@ class TitleState extends MusicBeatState
 	var floor:FlxSprite;
 	var light:FlxSprite;
 
+	var down:Bool = false;
+
 	var curWacky:Array<String> = [];
 
 	var wackyImage:FlxSprite;
@@ -177,6 +179,19 @@ class TitleState extends MusicBeatState
 		square = new FlxSprite(0, 0);
 		square.loadGraphic(Paths.image('overwrite_square', 'shared'));
 		add(square);
+
+		new FlxTimer().start(4, function(tmr:FlxTimer)
+	/*	{
+		if (!down){
+		FlxTween.tween(square, {y: 300}, 3,{ ease: FlxEase.expoInOut});
+		down = true;
+		}	
+		else if (down){
+		FlxTween.tween(square, {y: 0}, 3,{ease: FlxEase.expoInOut});	
+		down = false;
+		}	
+		}, 0); */
+
 
 		floor = new FlxSprite(-650, -250);
 		floor.loadGraphic(Paths.image('overwrite_bg', 'shared'));

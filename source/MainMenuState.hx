@@ -28,6 +28,7 @@ class MainMenuState extends MusicBeatState
 	var map:Menu;
 	var storyMode:FlxSprite;
 	var freeplay:FlxSprite;
+	var options:FlxSprite;
 
 	var cam:FlxCamera;
 
@@ -67,16 +68,20 @@ class MainMenuState extends MusicBeatState
 		freeplay.color = 0xFF008000;
 		add(freeplay);
 
+		options = new FlxSprite(900, 240);
+		options.visible = false;
+		options.color = 0xFF008000;
+		add(options);
 
 		super.create();
 	}
 	function chooseStoryMode(player:FlxSprite, storyMode:FlxSprite):Void {
 		if (player.exists && storyMode.exists && controls.ACCEPT && !inCutscene){
-		    var doof = new RpgDialogueBox(false, CoolUtil.coolTextFile(Paths.txt('txts/storymode')));
+			var dialogue:Array<String> = [':none: The light blinds you'];
+		    var doof = new RpgDialogueBox(false, dialogue);
 			doof.finishThing = goToStoryMode;
 			doof.scrollFactor.set();
 			addDialogueBox(doof);
-			inCutscene = false; 
 		}
 	}
 	function chooseFreePlay(player:FlxSprite, freeplay:FlxSprite):Void {
@@ -85,6 +90,12 @@ class MainMenuState extends MusicBeatState
 			FlxG.switchState(new FreeplayState());
 		}
 	}
+	function chooseOptions(player:FlxSprite, options:FlxSprite):Void {
+		if (player.exists && options.exists && controls.ACCEPT){
+			
+			FlxG.switchState(new OptionsMenu());
+		}
+	}	
 	function addDialogueBox(?dialogueBox:RpgDialogueBox):Void{
 	new FlxTimer().start(0.3, function(tmr:FlxTimer)
 	  {
@@ -96,12 +107,14 @@ class MainMenuState extends MusicBeatState
 	}
 	function goToStoryMode():Void {
 		FlxG.switchState(new StoryMenuState());
+		inCutscene = false; 
 	}
 	override function update(elapsed:Float)
 		{
 		//FlxG.collide(player, tile);
 		FlxG.overlap(player, storyMode, chooseStoryMode);	
-		FlxG.overlap(player, freeplay, chooseFreePlay);	
+		FlxG.overlap(player, freeplay, chooseFreePlay);
+		FlxG.overlap(player, options, chooseOptions);	
 		super.update(elapsed);
 		}		
 }
