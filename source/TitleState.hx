@@ -202,9 +202,9 @@ class TitleState extends MusicBeatState
 
 
 		FlxTween.tween(xevent, {y: 325}, 1,{type: FlxTween.PINGPONG});
-		FlxTween.tween(square, {y: 300}, 0.8,{type: FlxTween.PINGPONG});
-		FlxTween.tween(square2, {y: 300}, 0.6,{type: FlxTween.PINGPONG});
-		FlxTween.tween(square3, {y: 300}, 0.4,{type: FlxTween.PINGPONG});
+		FlxTween.tween(square, {y: 300}, 1.5,{type: FlxTween.PINGPONG});
+		FlxTween.tween(square2, {y: 300}, 2,{type: FlxTween.PINGPONG});
+		FlxTween.tween(square3, {y: 300}, 1.4,{type: FlxTween.PINGPONG});
 
 
 		gfDance = new FlxSprite(500, -100);
